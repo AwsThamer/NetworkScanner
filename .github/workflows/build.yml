@@ -1,0 +1,95 @@
+name: Build Network Scanner
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev libxxf86vm-dev
+    
+    - name: Download Go modules
+      run: go mod download
+    
+    - name: Build CLI for Linux
+      run: go build -o bin/network-scanner-cli cli.go
+    
+    - name: Build GUI for Linux
+      run: go build -o bin/network-scanner-gui main.go
+    
+    - name: Build CLI for Windows
+      run: GOOS=windows GOARCH=amd64 go build -o bin/network-scanner-cli-windows.exe cli.go
+    
+    - name: Test CLI
+      run: ./bin/network-scanner-cli ping 8.8.8.8
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: network-scanner-binaries
+        path: bin/
+        
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: network-scanner-binaries
+        path: bin/
+    
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Network Scanner ${{ github.ref }}
+        body: |
+          ## 🎉 Network Scanner Pro Release
+          
+          ### ✨ Features:
+          - Cross-platform network scanning (Linux/Windows)
+          - Beautiful GUI with Bootstrap-inspired design
+          - Enhanced ping range functionality
+          - Port scanning with presets
+          - Real-time progress tracking
+          
+          ### 📦 Downloads:
+          - **Linux GUI**: network-scanner-gui
+          - **Linux CLI**: network-scanner-cli
+          - **Windows CLI**: network-scanner-cli-windows.exe
+          
+          ### 🚀 Usage:
+          ```bash
+          # GUI Version
+          ./network-scanner-gui
+          
+          # CLI Examples
+          ./network-scanner-cli ping google.com
+          ./network-scanner-cli portscan 192.168.1.1 1 1000
+          ./network-scanner-cli netscan 192.168.1.0/24
+          ```
+        draft: false
+        prerelease: false

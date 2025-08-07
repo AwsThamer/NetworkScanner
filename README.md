@@ -1,185 +1,202 @@
-# Network Scanner
+# 🔍 Network Scanner Pro
 
-A cross-platform network scanning tool built with Go and Fyne GUI framework.
+[![Build Status](https://github.com/AwsThamer/NetworkScanner/workflows/Build%20Network%20Scanner/badge.svg)](https://github.com/AwsThamer/NetworkScanner/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/AwsThamer/NetworkScanner)](https://goreportcard.com/report/github.com/AwsThamer/NetworkScanner)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Features
+A powerful, cross-platform network scanning tool built with Go and featuring a beautiful modern GUI.
 
-- **Enhanced Ping Range Functionality**: 
-  - 🎯 **Network Presets**: One-click buttons for common networks (192.168.1.0/24, 10.0.0.0/24, 172.16.0.0/24)
-  - 🌍 **Custom IP Ranges**: Enter ranges like 192.168.1.1-192.168.1.50 for targeted scanning
-  - 🟢 **Color-coded Results**: Green for responsive hosts, red for non-responsive
-  - 📊 **Real-time Progress**: Live response counts and progress tracking
-- **Port Scanning**: Scan a range of ports on a target host to identify open services
-- **Network Discovery**: Scan an entire network range to find active hosts  
-- **Host Ping**: Simple ping functionality to check if a host is reachable
-- **Cross-Platform**: Works on both Linux and Windows
-- **Enhanced GUI Interface**: 
-  - 🎨 **Beautiful Design**: Custom Bootstrap-inspired color theme
-  - 🔲 **Card Layout**: Modern card-based interface with gradient backgrounds  
-  - 📊 **Rich Results**: Timestamped, color-coded results with visual indicators
-  - 🎪 **Professional Header**: Gradient header with branding
-  - 📈 **Enhanced Progress**: Progress bars with percentage display
-  - 🎮 **Interactive Elements**: Dynamic buttons that change during scanning
-  - 💡 **User Guidance**: Helpful tips and visual feedback throughout
-- **Real-time Progress**: Progress bar and status updates during scans
-- **Concurrent Scanning**: Fast scanning with controlled concurrency
+![Network Scanner Pro Screenshot](https://via.placeholder.com/800x600/007BFF/ffffff?text=Network+Scanner+Pro+GUI)
 
-## Build Status
+## ✨ Features
 
-✅ **Linux CLI Version**: Working  
-✅ **Linux GUI Version**: Working  
-✅ **Windows CLI Version**: Working (cross-compiled)  
-⚠️ **Windows GUI Version**: Limited (requires Windows build environment for GUI dependencies)
+### 🎯 Enhanced Ping Range Functionality
+- **Network Presets**: One-click buttons for common networks (192.168.1.0/24, 10.0.0.0/24, 172.16.0.0/24)
+- **Custom IP Ranges**: Enter ranges like 192.168.1.1-192.168.1.50 for targeted scanning
+- **Color-coded Results**: Green for responsive hosts, red for non-responsive
+- **Real-time Progress**: Live response counts and progress tracking
 
-## Quick Start
+### 🔍 Comprehensive Scanning
+- **Port Scanning**: Scan port ranges on target hosts with preset options
+- **Network Discovery**: Full CIDR network scanning capabilities
+- **Host Ping**: Quick single-host connectivity testing
+- **Cross-Platform**: Works seamlessly on Linux and Windows
 
-The project includes both GUI and CLI versions:
+### 🎨 Beautiful GUI Interface
+- **Bootstrap-Inspired Design**: Professional color theme with gradients
+- **Card-Based Layout**: Modern, organized interface sections
+- **Rich Visual Feedback**: Timestamped, color-coded results
+- **Interactive Elements**: Dynamic buttons and real-time progress
+- **Professional Styling**: Gradient headers and modern typography
+
+## 🚀 Quick Start
+
+### Download Pre-built Binaries
+
+Check the [Releases](https://github.com/AwsThamer/NetworkScanner/releases) page for pre-built binaries.
 
 ### GUI Version (Linux)
 ```bash
-./bin/network-scanner-gui
+chmod +x network-scanner-gui
+./network-scanner-gui
 ```
 
 ### CLI Version (Cross-platform)
 ```bash
 # Ping a host
-./bin/network-scanner-cli ping google.com
+./network-scanner-cli ping google.com
 
 # Scan ports
-./bin/network-scanner-cli portscan 192.168.1.1 80 443
+./network-scanner-cli portscan 192.168.1.1 80 443
 
 # Scan network
-./bin/network-scanner-cli netscan 192.168.1.0/24
+./network-scanner-cli netscan 192.168.1.0/24
 ```
+
+## 🔧 Building from Source
 
 ### Prerequisites
 - Go 1.21 or later
 - Git
+- Linux: X11 development libraries
 
-### Building from Source
-
-1. Clone or download this repository
-2. Navigate to the project directory
-3. Install dependencies:
-   ```bash
-   go mod tidy
-   ```
-
-### Building for Your Platform
-
-**For Linux:**
+### Install Dependencies (Linux)
 ```bash
-go build -o network-scanner main.go
+sudo apt update
+sudo apt install -y libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libgl1-mesa-dev libxxf86vm-dev
 ```
 
-**For Windows:**
+### Build Instructions
 ```bash
-GOOS=windows GOARCH=amd64 go build -o network-scanner.exe main.go
+# Clone the repository
+git clone https://github.com/AwsThamer/NetworkScanner.git
+cd NetworkScanner
+
+# Install Go dependencies
+go mod tidy
+
+# Build all versions
+./build-all.sh
 ```
 
-### Cross-Platform Build
+This creates:
+- `bin/network-scanner-gui` - Linux GUI version
+- `bin/network-scanner-cli` - Linux CLI version  
+- `bin/network-scanner-cli-windows.exe` - Windows CLI version
 
-Use the provided build scripts:
+## 📖 Usage Guide
 
-**On Linux/macOS:**
+### GUI Features
+
+#### 🎯 Target Configuration
+- **Host/IP Input**: Enter single hosts or IP addresses
+- **Network Presets**: Click preset buttons for common networks
+- **Custom Ranges**: Enter IP ranges like 192.168.1.1-192.168.1.50
+
+#### 🔌 Port Configuration  
+- **Port Range**: Set start and end ports
+- **Presets**: Common (1-1024), Web (80,443), All (1-65535)
+
+#### 🚀 Scan Operations
+- **Port Scan**: Comprehensive port scanning
+- **Network Discovery**: Find all hosts in network
+- **Ping Range**: Fast ping sweep functionality
+- **Quick Ping**: Single host connectivity test
+
+### CLI Commands
+
 ```bash
-./build.sh
+# Ping operations
+./network-scanner-cli ping <host>
+./network-scanner-cli ping google.com
+
+# Port scanning  
+./network-scanner-cli portscan <host> <start_port> <end_port>
+./network-scanner-cli portscan 192.168.1.1 1 1000
+
+# Network scanning
+./network-scanner-cli netscan <network_cidr>
+./network-scanner-cli netscan 192.168.1.0/24
 ```
 
-**On Windows:**
-```batch
-build.bat
-```
+## 🛡️ Security & Ethics
 
-This will create binaries for both Linux and Windows in the `bin/` directory.
+⚠️ **Important**: Only scan networks you own or have explicit permission to test.
 
-## Usage
+- Uses unprivileged ping mode for compatibility
+- Implements connection timeouts and rate limiting
+- Respects network resources with controlled concurrency
+- Designed for legitimate network administration purposes
 
-### Running the Application
+## 🎨 GUI Screenshots
 
-**Linux:**
-```bash
-./network-scanner
-```
+### Main Interface
+The beautiful, card-based interface with gradient backgrounds and professional styling.
 
-**Windows:**
-```batch
-network-scanner.exe
-```
+### Ping Range Results  
+Color-coded results showing responsive (green) and non-responsive (red) hosts with timestamps.
 
-### GUI Features (Enhanced)
+### Port Scanning
+Real-time port scan results with progress tracking and open port detection.
 
-The new enhanced GUI provides a professional and user-friendly experience:
+## 🔧 Technical Details
 
-#### 🎨 **Visual Design**
-- **Card-based Layout**: Clean, organized sections for different functions
-- **Modern Icons**: Intuitive icons throughout the interface
-- **Professional Styling**: Enhanced typography and spacing
-- **Responsive Design**: Optimized window sizing and layout
-
-#### 🎯 **User Experience**
-- **Tabbed Interface**: Separate tabs for Scanner controls and Results view
-- **Smart Input Fields**: Helpful placeholders with examples
-- **Real-time Feedback**: Live progress updates with emoji indicators
-- **Error Handling**: Clear, friendly error messages
-
-#### 🚀 **Advanced Features**
-- **Scan Control**: Start/Stop buttons with dynamic states
-- **Progress Tracking**: Detailed progress bars and status updates
-- **Result Categorization**: Color-coded results (success/warning/error)
-- **Auto-scrolling Results**: Latest results automatically visible
-
-#### 📋 **Interface Sections**
-1. **🎯 Target Configuration**: Host/IP and network input fields
-2. **🔌 Port Range**: Port range selection with common port suggestions
-3. **🚀 Scan Operations**: Port scan, network scan, ping, and clear buttons
-4. **📊 Status**: Real-time scanning status and progress display
-5. **📋 Results**: Detailed scan results with categorized display
-
-### Examples
-
-- **Port Scan**: Host: `192.168.1.1`, Ports: `1` to `1000`
-- **Network Scan**: Network: `192.168.1.0/24`
-- **Ping Test**: Host: `google.com`
-
-## Technical Details
-
-### Dependencies
-- **Fyne v2**: Cross-platform GUI framework
-- **go-ping**: ICMP ping implementation
+### Architecture
+- **Language**: Go 1.21+
+- **GUI Framework**: Fyne v2
+- **Networking**: Native Go net package + go-ping
+- **Concurrency**: Goroutines with semaphore limiting
 
 ### Scanning Methods
-- **Port Scanning**: TCP connection attempts with 1-second timeout
-- **Host Discovery**: ICMP ping with 1-second timeout
-- **Concurrent Processing**: Limited concurrent operations to prevent resource exhaustion
+- **Port Scanning**: TCP connection attempts (1s timeout)
+- **Host Discovery**: ICMP ping (1s timeout)  
+- **Network Discovery**: CIDR range iteration
+- **Concurrent Processing**: Controlled with semaphores
 
 ### Supported Platforms
-- Linux (amd64)
-- Windows (amd64)
-- macOS (with appropriate build flags)
+- ✅ Linux (amd64) - Full GUI + CLI
+- ✅ Windows (amd64) - CLI version
+- ✅ macOS (amd64) - CLI version (with build flags)
 
-## Security Considerations
+## 📋 Roadmap
 
-- The application uses unprivileged ping mode for better compatibility
-- Port scanning should only be performed on networks you own or have permission to test
-- Some firewalls may block or detect scanning activities
-- Use responsibly and in accordance with local laws and regulations
+- [ ] Windows GUI support
+- [ ] macOS GUI support  
+- [ ] Service detection on open ports
+- [ ] Export results to JSON/CSV
+- [ ] Network topology mapping
+- [ ] Custom scan profiles
+- [ ] Plugin system for extensions
 
-## Troubleshooting
+## 🤝 Contributing
 
-### Linux Issues
-- If ping doesn't work, try running with sudo (though the app is designed to work without it)
-- Ensure firewall allows the application
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Windows Issues
-- Windows Defender might flag the executable as suspicious (false positive)
-- Add exception in Windows Defender if needed
-- Run as administrator if experiencing permission issues
+### Development Setup
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Contributing
+## 📝 License
 
-Feel free to submit issues, feature requests, or pull requests to improve the application.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## License
+## 🙏 Acknowledgments
 
-This project is open source. Use at your own risk and responsibility.
+- [Fyne](https://fyne.io/) - Cross-platform GUI framework
+- [go-ping](https://github.com/go-ping/ping) - ICMP ping implementation
+- Bootstrap team for color inspiration
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+- 🐛 [Open an issue](https://github.com/AwsThamer/NetworkScanner/issues)
+- 💬 [Start a discussion](https://github.com/AwsThamer/NetworkScanner/discussions)
+
+---
+
+⭐ If you find this project useful, please consider giving it a star!
+
+**Made with ❤️ by [AwsThamer](https://github.com/AwsThamer)**

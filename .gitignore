@@ -1,0 +1,31 @@
+# Network Scanner Project
+
+## Binaries
+bin/
+network-scanner
+network-scanner-cli
+network-scanner-gui
+network-scanner-gui-enhanced
+
+## Backup files
+*_backup.go
+*_old.go
+main_gui.go
+
+## Go build files
+*.exe
+
+## IDE files
+.vscode/
+.idea/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Log files
+*.log
+
+## Temporary files
+tmp/
+temp/
